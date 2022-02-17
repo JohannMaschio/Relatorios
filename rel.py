@@ -107,27 +107,14 @@ for agente in list_agentes:
     tempos["contagem entrante"].append(count_e)
     tempos["Tempo total sainte"].append(tempo_s)
     tempos["Tempo total entrante"].append(tempo_e)
+    
+    
+    
+teste = data_entrante["Tempo de Atendimento"][4]
+teste2 = data_entrante["Tempo de Atendimento"][2]  
+    
+testet = timedelta(hours = teste2.hour, minutes = teste2.minute, seconds = teste2.second)
 
+testet1 = timedelta(hours = teste.hour, minutes = teste.minute, seconds = teste.second)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+testeteste = testet + testet1
