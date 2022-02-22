@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Feb  1 10:28:43 2022
-
 @author: johannmaschio
 """
 
@@ -12,9 +11,9 @@ import csv
 import datetime
 
 # Load data
-data_entrante = read_excel("C:/RELATORIOS/Entrantes Janeiro 2022.xlsx")
-data_sainte = read_excel("C:/RELATORIOS/Sainte Janeiro 2022.xlsx")
-data_tabulacao = read_excel("C:/RELATORIOS/Tabulação Janeiro 2022.xlsx")
+data_entrante = read_excel("C:/RELATORIOS/Entrante.xlsx")
+data_sainte = read_excel("C:/RELATORIOS/Sainte.xlsx")
+data_tabulacao = read_excel("C:/RELATORIOS/Tabulação.xlsx")
 
 # Data preprocessing
 data_entrante = data_entrante.drop(columns=['Origem', 'Destino', 'Duração', 'Tempo de espera', 
@@ -87,34 +86,42 @@ tempos = {}
 tempos["Agente"] = []
 tempos["Tempo total sainte"] = []
 tempos["Tempo total entrante"] = []
-tempos["contagem entrante"] = []
 tempos["contagem sainte"] = []
+tempos["contagem entrante"] = []
+tempos["media sainte"] = []
+tempos["media entrante"] = []
 
 for agente in list_agentes:
     tempos["Agente"].append(agente)
     count_s = 0
     count_e = 0
-    tempo_s = 0
-    tempo_e = 0
+    tempo_s = timedelta()
+    tempo_e = timedelta()
+    med_s = timedelta()
+    med_s = timedelta()
+    
     for line in final_df.index:
         if agente == final_df["Agente"][line] and final_df["Tabulação"][line] == "Sainte":
             count_s += 1
-            #tempo_s =                      
+            tempo_s += timedelta(hours = final_df["Tempo Atendimento"][line].hour, minutes = final_df["Tempo Atendimento"][line].minute, seconds = final_df["Tempo Atendimento"][line].second)                      
         elif agente == final_df["Agente"][line] and final_df["Tabulação"][line] != "Sainte":
             count_e += 1
-            #tempo_e = 
+            tempo_e += timedelta(hours = final_df["Tempo Atendimento"][line].hour, minutes = final_df["Tempo Atendimento"][line].minute, seconds = final_df["Tempo Atendimento"][line].second)
     tempos["contagem sainte"].append(count_s)
     tempos["contagem entrante"].append(count_e)
     tempos["Tempo total sainte"].append(tempo_s)
     tempos["Tempo total entrante"].append(tempo_e)
-    
-    
-    
-teste = data_entrante["Tempo de Atendimento"][4]
-teste2 = data_entrante["Tempo de Atendimento"][2]  
-    
-testet = timedelta(hours = teste2.hour, minutes = teste2.minute, seconds = teste2.second)
+    if tempo_s != 0 and count_s != 0:
+        tempos["media sainte"].append(tempo_s / count_s)
+    else:
+        tempos["media sainte"].append(0)
+    if tempo_e != 0 and count_e != 0:
+        tempos["media entrante"].append(tempo_e / count_e)
+    else:
+        tempos["media entrante"].append(0)
+        
+columns = ['Agente', 'Tempo total sainte', 'contagem sainte', 'media sainte', 'Tempo total entrante', 'contagem entrante', 'media entrante']
+final_tempos = pd.DataFrame(tempos, columns=columns)
+final_tempos.to_excel('final_tempos.xlsx', encoding='utf-8', index=False)
 
-testet1 = timedelta(hours = teste.hour, minutes = teste.minute, seconds = teste.second)
-
-testeteste = testet + testet1
+print("Relatorios gerados!!!")
