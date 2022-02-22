@@ -31,7 +31,7 @@ data_tabulacao = data_tabulacao.dropna()
 for line in data_tabulacao.index:
     if data_tabulacao['Tabulação'][line] == 'Desistência' and data_tabulacao['Tempo de Atendimento'][line].hour == 0 and data_tabulacao['Tempo de Atendimento'][line].minute == 0 and data_tabulacao['Tempo de Atendimento'][line].second <= 40: 
         data_tabulacao = data_tabulacao.drop(labels = line)
-    elif data_tabulacao['Tabulação'][line] == 'Transferência' or data_tabulacao['Tabulação'][line] == 'Engano' or data_tabulacao['Tabulação'][line] == 'Não Tabulada ':
+    elif data_tabulacao['Tabulação'][line] == 'Transferência' or data_tabulacao['Tabulação'][line] == 'Engano' or data_tabulacao['Tabulação'][line] == 'Não Tabulada':
         data_tabulacao = data_tabulacao.drop(labels = line)
     elif data_tabulacao['Tabulação'][line] == 'Queda' and data_tabulacao['Tempo de Atendimento'][line].hour == 0 and data_tabulacao['Tempo de Atendimento'][line].minute == 0 and data_tabulacao['Tempo de Atendimento'][line].second <= 40:
         data_tabulacao = data_tabulacao.drop(labels = line)
